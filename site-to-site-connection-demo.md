@@ -15,10 +15,12 @@
  Resource Group Name: rg-azure-aws
  Region: East-US
  VNet Name: vnet-azure
- VNet IPv4 Address Space: 172.10.0.0/16
+ VNet IPv4 Address Space: 10.1.0.0/16
  Subnet Name: subnet-01
- Subnet IPv4 Address Space: 172.10.1.0/24
+ Subnet IPv4 Address Space: 10.1.0.0/24
+Add another subnet of Gatewaykind with IP range as 10.1.1.0/24
  ```
+
  3. Create the VPN Gateway
  ```bash
  VPN Gateway Name: vpn-azure-aws
@@ -37,14 +39,14 @@
  4. Create the Virtual Private Cloud (VPC) in AWS
  ```bash
  Name: my-vpc-01
- IPv4 CIDR: 10.10.0.0/16
+ IPv4 CIDR: 10.0.0.0/16
  ```
  5. Create a subnet inside the VPC (Virtual Network)
  ```bash
  Name: my-subnet-01
  VPC Name: my-vpc-01
- VPC IPv4 CIDR: 10.10.0.0/16
- IPv4 CIDR: 10.10.1.0/24
+ VPC IPv4 CIDR: 10.0.0.0/16
+ IPv4 CIDR: 10.0.0.0/24
  ```
  6. Create a customer gateway pointing to the Public IP Address of Azure VPN Gateway
  ```bash
@@ -61,7 +63,7 @@
  Target gateway type: Virtual private gateway (Select your Virtual private gateway created in 7)
  Customer gateway: Existing (Select your VCustomer gateway created in 6)
  Routing options: Static
- Static IP prefixes: 172.10.1.0/24
+ Static IP prefixes: 10.1.0.0/16
  Leave rest of them as default
  ```
  9. Download the configuration file
@@ -79,7 +81,7 @@
  Resource Group Name: rg-azure-aws
  Region: East-US
  IP address: Get the Outside IP address from the configuration file downloaded in 9.
- Address Space(s): 10.10.0.0/16
+ Address Space(s): 10.0.0.0/16
  ```
  11. Create the connection on the Virtual Network Gateway in Azure
  ```bash
@@ -97,7 +99,7 @@
  13. Now let's edit the route table associated with our VPC
  ```bash
  Add the route to Azure subnet through the Virtual Private Gateway
- Destination: 172.10.1.0/24
+ Destination: 10.1.0.0/16
  Target: Virtual Private Gateway that we created.
  also add,
  Destination: 0.0.0.0/0
